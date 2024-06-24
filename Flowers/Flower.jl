@@ -1,4 +1,5 @@
 using Plots, Revise
+using Term.Progress
 Plots.plotlyjs()
 
 # each point is length, width, type (0, 1)
@@ -35,8 +36,7 @@ function Train(epoch :: Int, weigthVector = rand(3) :: Vector{Float64}; η = 0.0
     @assert epoch > 0 "You can't have less then 1 epoch"
     @assert η > 0 "Eta must be positive"
 
-    for itteration ∈ 1:epoch
-        println("Itteration: $itteration")
+    @track for itteration ∈ 1:epoch
         gradient = zeros(Float64, 3)
         for dataPoint ∈ data
             input = dataPoint[1:2]
@@ -66,7 +66,7 @@ function GetColor(prediction :: Float64) :: Symbol
     end
 end
 
-weightVector = Train(999_999)
+weightVector = Train(2_999_999)
 Predict(mystery_flower, weightVector)
 
 # Initialize an empty 3D scatter plot
